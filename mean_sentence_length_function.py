@@ -34,7 +34,24 @@ def pmi_count_phrase_create(pmi_tups,freq_list):
     df = pd.DataFrame({'Phrase':phrase3_list,'PMI':pmi3_list,'Count':count3_list})
     return df 
 
+
+# def quicker_func(pmi_tups,freq_list):
+#     pmi_list = [ pmi for phrase,pmi in pmi_tups if phrase == quadgram for quadgram ,count in freq_list]
+# import pandas as pd
+
+def quicker_func(pmi_tups, freq_list):
+    import pandas as pd
+    freq_dict = dict(freq_list)  # Create a dictionary for faster lookups 
+
+    pmi_list = [pmi for phrase, pmi in pmi_tups if phrase in freq_dict]
+    count_list = [freq_dict[phrase] for phrase, pmi in pmi_tups if phrase in freq_dict]
+    phrase_list = [phrase for phrase, pmi in pmi_tups if phrase in freq_dict]
+
+    df = pd.DataFrame({'Phrase': phrase_list, 'PMI': pmi_list, 'Count': count_list})
+    return df
+
 list_1 = [ (('foo'),1),(('bar'),2)] # list of tuples of form [('string1', int), ('string2',int)]
+
 list_2 = [('foo',7),('bar', 12)]  # list of tuples of form: [(string1, float),(string2,float)...]
 def create_3_column_df(list1,list2):
     import pandas as pd
